@@ -1,0 +1,31 @@
+# taken from https://raw.githubusercontent.com/alikins/gitconfig/master/gitconfig
+# TODO!!
+
+# TODO: should go in gitconfig-local?
+[user]
+  email = olalonde@gmail.com
+  name = Olivier Lalonde
+
+[github]
+  user = olalonde
+
+[core]
+  excludesfile = /Users/ixcoin/.gitignore_global
+
+# local user config, usernames, etc
+[include]
+  path = ~/.gitconfig-local
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = auto
+
+[alias]
+  st = status
+  co = checkout
+  br = branch -v
+  lg = log --graph --color --abbrev-commit --decorate --date=relative --oneline --all
+
