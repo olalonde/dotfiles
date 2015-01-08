@@ -10,7 +10,7 @@
   user = olalonde
 
 [core]
-  excludesfile = /Users/ixcoin/.gitignore_global
+  excludesfile = ~/.gitignore_global
 
 # local user config, usernames, etc
 [include]
