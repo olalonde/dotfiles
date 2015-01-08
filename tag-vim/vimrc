@@ -201,6 +201,10 @@ colorscheme solarized
 " Remove trailing white space on save
 autocmd VimEnter * ToggleStripWhitespaceOnSave
 
+" NERDTree
+let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', '\~$']
+nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
+
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
