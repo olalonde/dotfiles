@@ -234,6 +234,9 @@ endfunction
 
 "nmap ^_ <plug>NERDCommenterToggle<CR>
 "imap ^_ <Esc><plug>NERDCommenterToggle<CR>i
+" Control-/ on Mac will toggle comments
+nmap <C-_> <plug>NERDCommenterToggle<CR>
+imap <C-_> <Esc><plug>NERDCommenterToggle<CR>i
 map <leader>/ <Esc><plug>NERDCommenterToggle<CR>
 
 ""
