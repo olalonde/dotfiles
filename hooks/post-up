@@ -17,6 +17,30 @@ if [ ! -e $HOME/.antigen/ ]; then
   curl -L https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > $HOME/.antigen/antigen.zsh
 fi
 
+# install tmux plugin manager (https://github.com/tmux-plugins/tpm)
+if [ ! -e $HOME/.tmux/plugins/tpm ]; then
+  mkdir -p ~/.tmux/plugins;
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+# install reattach-to-user-namespace on OS X
+# this is a required dependency for tmux-yank plugin
+# TODO: only install on OS X
+if ! hash reattach-to-user-namespace 2>/dev/null && ! hash xcopy 2> /dev/null; then
+  brew install reattach-to-user-namespace
+fi
+
+# todo: check modified time to know if we need to install plugins?
+if [ -e $HOME/.tmux/plugins/tpm ]; then
+  # https://github.com/tmux-plugins/tpm/wiki/Installing-plugins-via-the-command-line-only
+  # start a server but don't attach to it
+  tmux start-server
+  # create a new session but don't attach to it either
+  tmux new-session -d
+  # install the plugins
+  ~/.tmux/plugins/tpm/scripts/install_plugins.sh
+fi
+
 # install YouCompleteMe vim plugin (requires compilation)
 YCM_PATH=$HOME/.vim/bundle/YouCompleteMe
 YCM_BUILD_SCRIPT=$YCM_PATH/third_party/ycmd/build.sh

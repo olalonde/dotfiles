@@ -6,8 +6,19 @@ source $HOME/.antigen/antigen.zsh
 antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle git
-#antigen bundle command-not-found
+antigen bundle vi-mode
+# http://superuser.com/questions/476532/how-can-i-make-zshs-vi-mode-behave-more-like-bashs-vi-mode
+bindkey "^?" backward-delete-char
+bindkey "^W" backward-kill-word
+bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
+bindkey "^U" backward-kill-line
+
+# autocompletion
+antigen bundle brew
+antigen bundle docker
+antigen bundle gitfast
+antigen bundle npm
+#antigen bundle zsh-users/zsh-completions src
 
 # Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -29,6 +40,6 @@ export EDITOR=vim
 export PAGER=vimpager
 
 # Aliases
-alias zshconfig="vim ~/.zshrc && source ~/.zshrc"
+alias zshconfig="vim ~/.zshrc && source ~/.zshrc && antigen apply"
 alias zshtheme="vim ~/.zsh-theme && source ~/.zshrc"
 alias ll="ls -alh"
