@@ -189,6 +189,10 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 "" Plugin configuration
 ""
 
+""
+"" Color scheme
+""
+
 " Set color scheme (color schemes can be installed using Vundle)
 set t_Co=16
 " for some reason, this gives us a gray bg which i prefer to the one
@@ -201,9 +205,52 @@ colorscheme solarized
 " Remove trailing white space on save
 autocmd VimEnter * ToggleStripWhitespaceOnSave
 
-" NERDTree
+""
+"" NERDTree
+""
+
 let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', '\~$']
 nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
+
+" https://github.com/scrooloose/nerdtree/issues/21#issuecomment-907483
+" Auto close vim if nerdtree last buffer left
+autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+
+" Close all open buffers on entering a window if the only
+" buffer that's left is the NERDTree buffer
+function! s:CloseIfOnlyNerdTreeLeft()
+  if exists("t:NERDTreeBufName")
+    if bufwinnr(t:NERDTreeBufName) != -1
+      if winnr("$") == 1
+        q
+      endif
+    endif
+  endif
+endfunction
+
+""
+"" NERDCommenter
+""
+
+"nmap ^_ <plug>NERDCommenterToggle<CR>
+"imap ^_ <Esc><plug>NERDCommenterToggle<CR>i
+map <leader>/ <Esc><plug>NERDCommenterToggle<CR>
+
+""
+"" Syntastic
+""
+
+" You can see syntastic's idea of available checkers by running :SyntasticInfo
+" See wiki for supported checkers:
+" https://github.com/scrooloose/syntastic/wiki/Syntax-Checkers
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
