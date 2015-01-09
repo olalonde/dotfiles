@@ -27,6 +27,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 #antigen theme robbyrussell
 #let's use our a custom theme instead
 source $HOME/.zsh-theme
+antigen apply
 # /ANTIGEN
 
 # PATH
