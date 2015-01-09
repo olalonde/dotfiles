@@ -193,7 +193,7 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 set t_Co=16
 " for some reason, this gives us a gray bg which i prefer to the one
 " that ships with solarized
-let g:solarized_termcolors=256
+" let g:solarized_termcolors=256
 set background=dark
 colorscheme solarized
 
@@ -204,7 +204,6 @@ autocmd VimEnter * ToggleStripWhitespaceOnSave
 " NERDTree
 let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', '\~$']
 nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
-
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
