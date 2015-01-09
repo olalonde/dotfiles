@@ -44,3 +44,13 @@ export PAGER=vimpager
 alias zshconfig="vim ~/.zshrc && source ~/.zshrc && antigen apply"
 alias zshtheme="vim ~/.zsh-theme && source ~/.zshrc"
 alias ll="ls -alh"
+
+# NVM
+if [ -e $HOME/.nvm/nvm.sh ]; then
+  source $HOME/.nvm/nvm.sh
+fi
+
+# Local
+if [ -e $HOME/.zshrc.local ]; then
+  source $HOME/.zshrc.local
+fi

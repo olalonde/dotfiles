@@ -13,8 +13,11 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " USER-EDITABLE
+" Color schemes
 "Plugin 'w0ng/vim-hybrid'
+Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
 Plugin 'altercation/vim-colors-solarized'
+
 Plugin 'Valloric/YouCompleteMe'
 " Seamless navigation between tmux panes and vim windows
 Plugin 'christoomey/vim-tmux-navigator'
@@ -29,6 +32,9 @@ Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'mattn/gist-vim'
+Plugin 'majutsushi/tagbar'
 " /USER-EDITABLE
 
 " The following are examples of different formats supported.

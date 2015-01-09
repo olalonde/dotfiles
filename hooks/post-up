@@ -1,5 +1,13 @@
 #!/bin/sh
 
+is_linux () {
+  [[ $('uname') == 'Linux' ]];
+}
+
+is_osx () {
+  [[ $('uname') == 'Darwin' ]]
+}
+
 # install vundle for vim
 if [ ! -e $HOME/.vim/bundle/Vundle.vim ]; then
   git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
@@ -23,11 +31,16 @@ if [ ! -e $HOME/.tmux/plugins/tpm ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 fi
 
-# install reattach-to-user-namespace on OS X
-# this is a required dependency for tmux-yank plugin
-# TODO: only install on OS X
-if ! hash reattach-to-user-namespace 2>/dev/null && ! hash xcopy 2> /dev/null; then
-  brew install reattach-to-user-namespace
+# OS X dependencies
+if is_osx; then
+  # install reattach-to-user-namespace on OS X
+  # this is a required dependency for tmux-yank plugin
+  if ! hash reattach-to-user-namespace 2>/dev/null; then
+    brew install reattach-to-user-namespace
+  fi
+  if ! hash ctags 2>/dev/null; then
+    brew install ctags
+  fi
 fi
 
 # todo: check modified time to know if we need to install plugins?
