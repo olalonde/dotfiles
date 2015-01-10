@@ -12,6 +12,7 @@ set number            " Show line numbers
 set ruler             " Show line and column number
 syntax enable         " Turn on syntax highlighting allowing local overrides
 set encoding=utf-8    " Set default encoding to UTF-8
+set hidden            " allow to hide buffer with unsaved changes
 
 " see https://github.com/mathiasbynens/dotfiles/blob/master/.vimrc
 set clipboard=unnamed        " Use the OS clipboard by default (on versions compiled with `+clipboard`)
@@ -22,6 +23,8 @@ set gdefault                 " Add the g flag to search/replace by default
 set binary
 set noeol                    " Don’t add empty newlines at the end of files
 set backupdir=~/.vim/backups " Centralize backups, swapfiles and undo history
+" http://superuser.com/questions/549930/cant-resize-vim-splits-inside-tmux
+set ttymouse=xterm2          " make mouse window resize work inside tmux
 
 set directory=~/.vim/swaps
 if exists("&undodir")
@@ -43,6 +46,16 @@ set showmode      " Show the current mode
 set title         " Show the filename in the window titlebar
 set showcmd       " Show the (partial) command as it’s being typed
 set scrolloff=3   " Start scrolling three lines before the horizontal window border
+
+
+""
+"" Text formatting
+""
+
+"set formatoptions+=a "Automatic formatting of paragraphs
+"oops, this should only be used for .md or .txt files!
+set formatoptions+=n "Recognize numbered list when formatting
+
 
 ""
 "" Whitespace
@@ -194,12 +207,19 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 ""
 
 " Set color scheme (color schemes can be installed using Vundle)
-set t_Co=16
+set t_Co=256
 " for some reason, this gives us a gray bg which i prefer to the one
 " that ships with solarized
 " let g:solarized_termcolors=256
+" nvm
 set background=dark
 colorscheme solarized
+
+" fix gitgutter
+" see https://github.com/airblade/vim-gitgutter/issues/164#issuecomment-62258499
+highlight clear SignColumn
+" vim-gitgutter will use Sign Column to set its color, reload it.
+call gitgutter#highlight#define_highlights()
 
 " https://github.com/ntpeters/vim-better-whitespace
 " Remove trailing white space on save

@@ -24,9 +24,10 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tpope/vim-fugitive'
 Plugin 'bling/vim-airline'
+" requires external programs
 Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'scrooloose/nerdtree'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
@@ -35,6 +36,10 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'mattn/gist-vim'
 Plugin 'majutsushi/tagbar'
+" requires external programs
+" gem install pygments.rb
+" npm install -g instant-markdown-d
+Plugin 'suan/vim-instant-markdown'
 " /USER-EDITABLE
 
 " The following are examples of different formats supported.
