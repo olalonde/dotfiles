@@ -14,6 +14,8 @@ syntax enable         " Turn on syntax highlighting allowing local overrides
 set encoding=utf-8    " Set default encoding to UTF-8
 set hidden            " allow to hide buffer with unsaved changes
 
+set diffopt+=vertical " side by side diffs by default
+
 " see https://github.com/mathiasbynens/dotfiles/blob/master/.vimrc
 set clipboard=unnamed        " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set wildmenu                 " Enhance command-line completion
