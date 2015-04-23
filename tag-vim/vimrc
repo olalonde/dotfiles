@@ -278,6 +278,14 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 ""
+"" Gist
+""
+
+"todo: make this portable?
+let g:gist_clip_command = 'pbcopy' " Copy gist URL to system clipboard
+let g:gist_post_anonymous = 1 " Post gists anonymously by default
+
+""
 "" Indent Guides
 ""
 let g:indent_guides_auto_colors = 0

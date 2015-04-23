@@ -1,7 +1,0 @@
-# wow
-
-```javascript
-
-console.log
-
-```

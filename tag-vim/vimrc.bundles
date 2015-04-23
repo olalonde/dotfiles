@@ -34,12 +34,19 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 Plugin 'majutsushi/tagbar'
 " requires external programs
 " gem install pygments.rb
 " npm install -g instant-markdown-d
-Plugin 'suan/vim-instant-markdown'
+" Plugin 'suan/vim-instant-markdown'
+Plugin 'othree/html5.vim'
+Plugin 'Valloric/MatchTagAlways'
+Plugin 'edsono/vim-matchit'
+Plugin 'Matt-Deacalion/vim-systemd-syntax'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mileszs/ack.vim'
 " /USER-EDITABLE
 
 " The following are examples of different formats supported.
