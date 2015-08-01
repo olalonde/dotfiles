@@ -19,6 +19,6 @@ brew install rcm
 ## Install dotfiles
 
 ```bash
-rcup -v
+rcup -v -d dotfiles
 ```
 
