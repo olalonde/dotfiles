@@ -23,3 +23,6 @@ Temporary Items
 .apdisk
 
 .braindump
+
+node_modules/
+npm-debug.log

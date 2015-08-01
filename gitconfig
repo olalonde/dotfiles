@@ -13,7 +13,7 @@
   excludesfile = ~/.gitignore_global
 
 [push]
-	default = simple
+  default = simple
 
 # local user config, usernames, etc
 [include]
@@ -32,3 +32,9 @@
   br = branch -v
   lg = log --graph --color --abbrev-commit --decorate --date=relative --oneline --all
 
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+
+[mergetool]
+  prompt = false

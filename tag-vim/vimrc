@@ -175,7 +175,8 @@ endif
 "" Mappings
 ""
 
-let mapleader="\\" " Change mapleader
+"let mapleader="\\" " Change mapleader
+let mapleader="," " Change mapleader
 
 " use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
 " (it will prompt for sudo password when writing)
@@ -236,7 +237,7 @@ nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
 
 " https://github.com/scrooloose/nerdtree/issues/21#issuecomment-907483
 " Auto close vim if nerdtree last buffer left
-autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+"autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
@@ -273,9 +274,11 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_loc_list            = 1
+let g:syntastic_check_on_open            = 1
+let g:syntastic_check_on_wq              = 0
+"let g:syntastic_javascript_checkers      = ['standard']
+let g:syntastic_javascript_checkers      = [ 'eslint' ]
 
 ""
 "" Gist
@@ -291,6 +294,26 @@ let g:gist_post_anonymous = 1 " Post gists anonymously by default
 let g:indent_guides_auto_colors = 0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  ctermbg=black
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=darkgrey
+
+""
+"" Tabular
+""
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
+
+""
+"" Javascript syntax highlighting
+""
+let g:syntastic_javascript_eslint_args = "--reset"
+"hi! def link  jsBrackets             Function
+hi! def link  jsFuncBraces           Type
+"hi! def link  jsBraces               Function
+"hi! def link  jsParens               Function
+hi! def link  jsFuncParens           Type
+" add .eslintrc as javascript file
+autocmd BufNewFile,BufRead .eslintrc setfiletype javascript
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
