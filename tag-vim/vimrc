@@ -49,6 +49,7 @@ set title         " Show the filename in the window titlebar
 set showcmd       " Show the (partial) command as it’s being typed
 set scrolloff=3   " Start scrolling three lines before the horizontal window border
 
+" set cursorcolumn
 
 ""
 "" Text formatting
@@ -215,8 +216,15 @@ set t_Co=256
 " that ships with solarized
 " let g:solarized_termcolors=256
 " nvm
+" Important: set background before colorscheme!
+" https://github.com/mhartington/oceanic-next/issues/25#issuecomment-251016600
 set background=dark
-colorscheme solarized
+colorscheme OceanicNext
+" unlet g:oceanic_next_terminal_italic
+" unlet g:oceanic_next_terminal_bold
+" colorscheme solarized
+let g:airline_theme='oceanicnext'
+" set relativenumber number
 
 " fix gitgutter
 " see https://github.com/airblade/vim-gitgutter/issues/164#issuecomment-62258499
@@ -226,7 +234,7 @@ call gitgutter#highlight#define_highlights()
 
 " https://github.com/ntpeters/vim-better-whitespace
 " Remove trailing white space on save
-autocmd VimEnter * ToggleStripWhitespaceOnSave
+autocmd BufWritePre * StripWhitespace
 
 ""
 "" NERDTree
@@ -273,12 +281,39 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" https://github.com/scrooloose/syntastic/issues/1678#issuecomment-176085705
+function! SyntasticCheckHook(errors)
+    if !empty(a:errors)
+        let g:syntastic_loc_list_height = min([len(a:errors), 10])
+    endif
+endfunction
+
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_open            = 1
 let g:syntastic_check_on_wq              = 0
 "let g:syntastic_javascript_checkers      = ['standard']
-let g:syntastic_javascript_checkers      = [ 'eslint' ]
+"let g:syntastic_javascript_checkers      = [ 'eslint' ]
+" autocmd FileType javascript let b:syntastic_checkers = findfile('node_modules/.bin/standard', '.;') != '' ? [ 'standard' ] : [ 'eslint' ]
+
+" let g:syntastic_debug = 3
+let g:syntastic_scss_checkers      = [ 'sass_lint' ]
+
+function! LoadJSChecker()
+  let b:syntastic_checkers = [ 'eslint' ]
+  " use node_modules/.bin/eslint if it exists?
+  if findfile('.eslintrc', '.;') != ""
+    let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
+    " echo s:eslint_path
+    let g:syntastic_javascript_eslint_exec = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+    let b:syntastic_checkers = [ 'eslint' ]
+  endif
+  " elseif findfile('node_modules/.bin/standard', '.;') != ""
+  " let b:syntastic_checkers = [ 'standard' ]
+  " jendif
+endfunction
+
+autocmd FileType javascript :call LoadJSChecker()
 
 ""
 "" Gist
@@ -304,9 +339,14 @@ nmap <Leader>a: :Tabularize /:\zs<CR>
 vmap <Leader>a: :Tabularize /:\zs<CR>
 
 ""
+"" Unite
+""
+nmap <Leader><Leader> :Unite buffer<CR>
+nmap <Leader>p :Unite register<CR>
+
+""
 "" Javascript syntax highlighting
 ""
-let g:syntastic_javascript_eslint_args = "--reset"
 "hi! def link  jsBrackets             Function
 hi! def link  jsFuncBraces           Type
 "hi! def link  jsBraces               Function
