@@ -211,12 +211,13 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 ""
 
 " Set color scheme (color schemes can be installed using Vundle)
-" set t_Co=256
+set t_Co=256
+set t_ut=
 " set background=dark
 
 " for vim 8
 if (has("termguicolors"))
- set termguicolors
+  set termguicolors
 endif
 
 colorscheme OceanicNext
