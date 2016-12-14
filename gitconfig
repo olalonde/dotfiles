@@ -11,6 +11,7 @@
 
 [core]
   excludesfile = ~/.gitignore_global
+	pager = less -F -X
 
 [push]
   default = simple
@@ -31,10 +32,15 @@
   co = checkout
   br = branch -v
   lg = log --graph --color --abbrev-commit --decorate --date=relative --oneline --all
+  d = difftool
 
 [merge]
-  tool = vimdiff
+	tool = opendiff
   conflictstyle = diff3
 
 [mergetool]
   prompt = false
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false

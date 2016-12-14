@@ -6,7 +6,8 @@ source $HOME/.antigen/antigen.zsh
 antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle vi-mode
+#antigen bundle vi-mode
+bindkey -v
 # http://superuser.com/questions/476532/how-can-i-make-zshs-vi-mode-behave-more-like-bashs-vi-mode
 bindkey "^?" backward-delete-char
 bindkey "^W" backward-kill-word
@@ -30,6 +31,8 @@ source $HOME/.zsh-theme
 antigen apply
 # /ANTIGEN
 
+unalias gm
+
 # PATH
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -45,6 +48,19 @@ alias zshconfig="vim ~/.zshrc && source ~/.zshrc && antigen apply"
 alias zshtheme="vim ~/.zsh-theme && source ~/.zshrc"
 alias ll="ls -alh"
 alias ubuntu="docker run -it --rm ubuntu"
+function d() {
+  docker run -it --rm $1 /bin/sh
+}
+function drun() {
+  docker run -it --rm $@
+}
+function nse() {
+  docker exec -it $1 sh
+}
+
+# Fix python error
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # NVM
 if [ -e $HOME/.nvm/nvm.sh ]; then
@@ -55,3 +71,16 @@ fi
 if [ -e $HOME/.zshrc.local ]; then
   source $HOME/.zshrc.local
 fi
+
+# added by travis gem
+[ -f /Users/olalonde/.travis/travis.sh ] && source /Users/olalonde/.travis/travis.sh
+
+# https://github.com/direnv/direnv
+eval "$(direnv hook zsh)"
+
+# todo...
+# alias encrypt = openssl aes-256-cbc -a -salt -in secrets.txt -out secrets.txt.enc
+# alias decrypt = openssl aes-256-cbc -d -a -in secrets.txt.enc -out secrets.txt.new
+
+
+. /Users/olalonde/torch/install/bin/torch-activate

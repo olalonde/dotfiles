@@ -211,18 +211,16 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 ""
 
 " Set color scheme (color schemes can be installed using Vundle)
-set t_Co=256
-" for some reason, this gives us a gray bg which i prefer to the one
-" that ships with solarized
-" let g:solarized_termcolors=256
-" nvm
-" Important: set background before colorscheme!
-" https://github.com/mhartington/oceanic-next/issues/25#issuecomment-251016600
-set background=dark
+" set t_Co=256
+" set background=dark
+
+" for vim 8
+if (has("termguicolors"))
+ set termguicolors
+endif
+
 colorscheme OceanicNext
-" unlet g:oceanic_next_terminal_italic
-" unlet g:oceanic_next_terminal_bold
-" colorscheme solarized
+
 let g:airline_theme='oceanicnext'
 " set relativenumber number
 
@@ -297,16 +295,16 @@ let g:syntastic_check_on_wq              = 0
 " autocmd FileType javascript let b:syntastic_checkers = findfile('node_modules/.bin/standard', '.;') != '' ? [ 'standard' ] : [ 'eslint' ]
 
 " let g:syntastic_debug = 3
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_scss_checkers      = [ 'sass_lint' ]
-
 function! LoadJSChecker()
-  let b:syntastic_checkers = [ 'eslint' ]
+  let b:syntastic_checkers = [ 'flow', 'eslint' ]
   " use node_modules/.bin/eslint if it exists?
   if findfile('.eslintrc', '.;') != ""
     let s:eslint_path = system('PATH=$(npm bin):$PATH && which eslint')
     " echo s:eslint_path
     let g:syntastic_javascript_eslint_exec = substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-    let b:syntastic_checkers = [ 'eslint' ]
+    let b:syntastic_checkers = [ 'flow', 'eslint' ]
   endif
   " elseif findfile('node_modules/.bin/standard', '.;') != ""
   " let b:syntastic_checkers = [ 'standard' ]

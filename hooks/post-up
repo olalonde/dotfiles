@@ -56,15 +56,16 @@ fi
 
 # install YouCompleteMe vim plugin (requires compilation)
 YCM_PATH=$HOME/.vim/bundle/YouCompleteMe
-YCM_BUILD_SCRIPT=$YCM_PATH/third_party/ycmd/build.sh
+YCM_INSTALL_SCRIPT="./install.sh --clang-completer"
+#YCM_BUILD_SCRIPT=$YCM_PATH/third_party/ycmd/build.py
 # todo: linux/win extensions is not .so... detect os and chose correct file
-YCM_SHARED_LIB=$YCM_PATH/third_party/ycmd/ycm_core.so
-if [ -e $YCM_PATH ]; then
-  if [ ! -e $YCM_BUILD_SCRIPT ]; then
-    cd $YCM_PATH && git submodule update --init --recursive
-  fi
-  # don't recompile if already compiled
-  if [ ! -e $YCM_SHARED_LIB ]; then
-    $YCM_BUILD_SCRIPT
-  fi
-fi
+#YCM_SHARED_LIB=$YCM_PATH/third_party/ycmd/ycm_core.so
+#if [ -e $YCM_PATH ]; then
+  #if [ ! -e $YCM_BUILD_SCRIPT ]; then
+    #cd $YCM_PATH && git submodule update --init --recursive
+  #fi
+  ## don't recompile if already compiled
+  #if [ ! -e $YCM_SHARED_LIB ]; then
+    #$YCM_BUILD_SCRIPT
+  #fi
+#fi
