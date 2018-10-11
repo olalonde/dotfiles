@@ -135,6 +135,7 @@ if has("autocmd")
     " Set the Ruby filetype for a number of common Ruby files without .rb
     autocmd BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,Procfile,config.ru,*.rake} set ft=ruby
   "endif
+  autocmd BufRead,BufNewFile *.snap setfiletype javascript
 
   " Make sure all mardown files have the correct filetype set and setup wrapping
   autocmd BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown | call s:setupWrapping()
@@ -353,6 +354,21 @@ hi! def link  jsFuncBraces           Type
 hi! def link  jsFuncParens           Type
 " add .eslintrc as javascript file
 autocmd BufNewFile,BufRead .eslintrc setfiletype javascript
+
+""
+"" YouCompleteMe
+""
+"  <leader>jd jumps to declaration/definition
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
+nnoremap <leader>jman :YcmCompleter GetDoc<CR>
+
+""
+"" Easy Align
+""
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")

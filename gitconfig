@@ -3,14 +3,14 @@
 
 # TODO: should go in gitconfig-local?
 [user]
-  email = olalonde@gmail.com
-  name = Olivier Lalonde
+	email = olalonde@gmail.com
+	name = Oli Lalonde
 
 [github]
   user = olalonde
 
 [core]
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/olalonde/.gitignore_global
 	pager = less -F -X
 
 [push]
@@ -44,3 +44,16 @@
 	tool = vimdiff
 [difftool]
 	prompt = false
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/olalonde/.stCommitMsg

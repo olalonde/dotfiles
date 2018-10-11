@@ -83,4 +83,7 @@ eval "$(direnv hook zsh)"
 # alias decrypt = openssl aes-256-cbc -d -a -in secrets.txt.enc -out secrets.txt.new
 
 
-. /Users/olalonde/torch/install/bin/torch-activate
+# . /Users/olalonde/torch/install/bin/torch-activate
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
