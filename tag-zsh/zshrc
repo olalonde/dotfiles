@@ -1,19 +1,22 @@
 # vi mode
 bindkey -v
 
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
 
 # Editor
 export EDITOR=nvim
 
 # Pager
-export PAGER=vimpager
+# export PAGER=vimpager
 
 # Language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-### zplug Plugins 
+# Enable coloring of e.g. ls
+export CLICOLOR=1
+
+### zplug Plugins
 source ~/.zplug/init.zsh
 
 # Can manage local plugins
@@ -22,6 +25,8 @@ zplug "chrissicool/zsh-256color"
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "~/.zsh-themes", from:local, as:theme
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting"
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -36,11 +41,17 @@ zplug load
 # zplug load --verbose
 
 ###  Application specific
+## ls
+# https://github.com/seebi/dircolors-solarized/issues/10
+# export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+export LSCOLORS=exfxfeaeBxxehehbadacea
+
+## zsh-autosuggestions
+bindkey '^p' autosuggest-accept
+
 ## zsh
 export HISTFILE=~/.histfile
-export HISTSIZE=10000
-export SAVEHIST=1000000
-
+export HISTSIZE=10000 export SAVEHIST=1000000
 ## nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -65,6 +76,25 @@ eval "$(direnv hook zsh)"
 
 ## rclone
 export RCLONE_PROGRESS=true
+
+##  fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# Use fd (https://github.com/sharkdp/fd) instead of the default find
+# command for listing path candidates.
+# use fd instead of find to ignore .gitignore, hidden files
+# export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+# To apply the command to CTRL-T as well
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
 
 ### Aliases
 alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
