@@ -1,89 +1,78 @@
-# ANTIGEN
-# see http://antigen.sharats.me/
-source $HOME/.antigen/antigen.zsh
-
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-#antigen bundle vi-mode
+# vi mode
 bindkey -v
-# http://superuser.com/questions/476532/how-can-i-make-zshs-vi-mode-behave-more-like-bashs-vi-mode
-bindkey "^?" backward-delete-char
-bindkey "^W" backward-kill-word
-bindkey "^H" backward-delete-char      # Control-h also deletes the previous char
-bindkey "^U" backward-kill-line
 
-# autocompletion
-antigen bundle brew
-antigen bundle docker
-antigen bundle gitfast
-antigen bundle npm
-#antigen bundle zsh-users/zsh-completions src
-
-# Syntax highlighting bundle.
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# Load the theme
-#antigen theme robbyrussell
-#let's use our a custom theme instead
-source $HOME/.zsh-theme
-antigen apply
-# /ANTIGEN
-
-unalias gm
-
-# PATH
-export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
 
-# EDITOR
-export EDITOR=vim
+# Editor
+export EDITOR=nvim
 
-# PAGER
+# Pager
 export PAGER=vimpager
 
-# Aliases
-alias zshconfig="vim ~/.zshrc && source ~/.zshrc && antigen apply"
-alias zshtheme="vim ~/.zsh-theme && source ~/.zshrc"
-alias ll="ls -alh"
-alias ubuntu="docker run -it --rm ubuntu"
+# Language
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+### zplug Plugins 
+source ~/.zplug/init.zsh
+
+# Can manage local plugins
+zplug "~/.zsh", from:local
+zplug "chrissicool/zsh-256color"
+zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/vi-mode", from:oh-my-zsh
+zplug "~/.zsh-themes", from:local, as:theme
+
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+# Then, source plugins and add commands to $PATH
+zplug load
+# zplug load --verbose
+
+###  Application specific
+## zsh
+export HISTFILE=~/.histfile
+export HISTSIZE=10000
+export SAVEHIST=1000000
+
+## nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+## rclone
+export RCLONE_PROGRESS=true
+
+## docker
+# launch a temporary shell on a given image
 function d() {
   docker run -it --rm $1 /bin/sh
 }
-function drun() {
-  docker run -it --rm $@
-}
+# hook into a running container
 function nse() {
   docker exec -it $1 sh
 }
 
-# Fix python error
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-# NVM
-if [ -e $HOME/.nvm/nvm.sh ]; then
-  source $HOME/.nvm/nvm.sh
-fi
-
-# Local
-if [ -e $HOME/.zshrc.local ]; then
-  source $HOME/.zshrc.local
-fi
-
-# added by travis gem
-[ -f /Users/olalonde/.travis/travis.sh ] && source /Users/olalonde/.travis/travis.sh
-
+## direnv
 # https://github.com/direnv/direnv
 eval "$(direnv hook zsh)"
 
-# todo...
-# alias encrypt = openssl aes-256-cbc -a -salt -in secrets.txt -out secrets.txt.enc
-# alias decrypt = openssl aes-256-cbc -d -a -in secrets.txt.enc -out secrets.txt.new
+## rclone
+export RCLONE_PROGRESS=true
 
+### Aliases
+alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
+alias ll="ls -alh"
+alias ubuntu="docker run -it --rm ubuntu"
+alias vim="nvim"
 
-# . /Users/olalonde/torch/install/bin/torch-activate
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+### Local
+if [ -e $HOME/.zshrc.local ]; then
+  source $HOME/.zshrc.local
+fi

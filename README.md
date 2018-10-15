@@ -2,6 +2,13 @@
 
 ## Install [rcm](https://github.com/thoughtbot/rcm)
 
+```
+cd ~
+git clone git@github.com:olalonde/dotfiles.git
+mv dotfiles .dotfiles
+ln -s ~/.dotfiles/rcrc ~/.rcrc
+```
+
 Debian/Ubuntu:
 
 ```bash
