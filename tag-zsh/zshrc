@@ -96,6 +96,10 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+## pyenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 ### Aliases
 alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
 alias ll="ls -alh"

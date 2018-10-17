@@ -8,9 +8,15 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'editorconfig/editorconfig-vim' " Cross editor config
 Plug 'w0rp/ale' " ALE, better than Syntastic
 Plug '/usr/local/opt/fzf' " fuzzy file search
+" https://github.com/airblade/vim-gitgutter/issues/555
+" Plug 'airblade/vim-gitgutter' " see git diffs in gutter
+Plug 'mhinz/vim-grepper' " :Grepper command
+Plug 'tpope/vim-unimpaired' " convenient bindings to navigate quickfix window
+Plug 'Xuyuanp/nerdtree-git-plugin' " show git files status in nerdtree
 " Language support
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 ""
@@ -232,12 +238,15 @@ nmap <leader>hs :set hlsearch! hlsearch?<CR>
 ""
 "" Configure plugins
 ""
+" Grepper
+"" dont interpret options
+nmap <silent> <leader>fg :Grepper<CR>
 
+" Theme
 if (has("termguicolors"))
  set termguicolors
 endif
 
-" Theme
 syntax enable
 colorscheme OceanicNext
 let g:airline_theme='oceanicnext'
@@ -273,3 +282,6 @@ function! s:CloseIfOnlyNerdTreeLeft()
     endif
   endif
 endfunction
+
+"" Gitgutter
+
