@@ -1,2 +1,3 @@
+# vim: set ft=sshconfig :
 RequestTTY force
 RemoteCommand tmux attach || tmux new -s main || echo 'server does not have tmux'
