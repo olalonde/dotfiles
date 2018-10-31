@@ -105,6 +105,7 @@ alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
 alias ll="ls -alh"
 alias ubuntu="docker run -it --rm ubuntu"
 alias vim="nvim"
+alias dc="docker-compose"
 
 ### Local
 if [ -e $HOME/.zshrc.local ]; then

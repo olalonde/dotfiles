@@ -1,5 +1,6 @@
 call plug#begin()
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin' " show git files status in nerdtree
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'vim-airline/vim-airline' " Status bar
@@ -9,14 +10,45 @@ Plug 'editorconfig/editorconfig-vim' " Cross editor config
 Plug 'w0rp/ale' " ALE, better than Syntastic
 Plug '/usr/local/opt/fzf' " fuzzy file search
 " https://github.com/airblade/vim-gitgutter/issues/555
-" Plug 'airblade/vim-gitgutter' " see git diffs in gutter
+Plug 'airblade/vim-gitgutter' " see git diffs in gutter
 Plug 'mhinz/vim-grepper' " :Grepper command
 Plug 'tpope/vim-unimpaired' " convenient bindings to navigate quickfix window
-Plug 'Xuyuanp/nerdtree-git-plugin' " show git files status in nerdtree
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary' " adds gcc gc
 " Language support
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'tpope/vim-surround'
+Plug 'leafgarland/typescript-vim'
+Plug 'jparise/vim-graphql'
+
+"" Autocomplete
+" https://jacky.wtf/weblog/language-client-and-neovim/
+" A dependency of 'ncm2'.
+Plug 'roxma/nvim-yarp'
+" v2 of the nvim-completion-manager.
+Plug 'ncm2/ncm2'
+" LanguageServer client for NeoVim.
+Plug 'autozimu/LanguageClient-neovim', {
+  \ 'branch': 'next',
+  \ 'do': 'bash install.sh',
+  \ }
+
+" automatically build vim-markdown-composer plugin
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+
+Plug 'mattn/webapi-vim' " required by gist-vim
+Plug 'olalonde/gist-vim', { 'branch': 'anonymous-fallback' }
+
 call plug#end()
 
 ""
@@ -264,7 +296,17 @@ nmap <silent> <leader>ff :FZF<CR>
 
 "" NERDTree
 
-let NERDTreeIgnore=['\.pyc$', '\.pyo$', '\.rbc$', '\.rbo$', '\.class$', '\.o$', '\~$']
+let NERDTreeIgnore=[
+\   '\.pyc$',
+\   '\.pyo$',
+\   '\.rbc$',
+\   '\.rbo$',
+\   '\.class$',
+\   '\.o$',
+\   '\~$',
+\   'node_modules$',
+\   '\.DS_Store$'
+\ ]
 nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
 
 " https://github.com/scrooloose/nerdtree/issues/21#issuecomment-907483
@@ -284,4 +326,26 @@ function! s:CloseIfOnlyNerdTreeLeft()
 endfunction
 
 "" Gitgutter
+set updatetime=100
+" default mapping is <leader>hs which we already use for highlight search
+" mnemonic: hunk add
+nmap <Leader>ha <Plug>GitGutterStageHunk
 
+"" Gist
+let g:gist_clip_command='pbcopy'
+
+"" Ale
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'css': ['prettier'],
+\}
+
+let g:ale_fix_on_save = 1
+
+"" Devicons
+
+let g:webdevicons_enable_nerdtree = 0
+"
+let g:webdevicons_conceal_nerdtree_brackets = 1
+" Force extra padding in NERDTree so that the filetype icons line up vertically
+let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
