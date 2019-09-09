@@ -16,23 +16,44 @@ Plug 'tpope/vim-unimpaired' " convenient bindings to navigate quickfix window
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary' " adds gcc gc
+Plug 'tpope/vim-fugitive' " :Gdiff
+Plug 'tpope/vim-rhubarb' " github extension for fugitive
+Plug 'qpkorr/vim-bufkill' " deletes buffer without closing window
+Plug 'tpope/vim-dispatch' " used by vim-test
+Plug 'janko-m/vim-test' " run test from vim
+" Plug 'benmills/vimux' " used to dispatch tests
+" Plug 'neomake/neomake' not sure why i still need this...
+"
 " Language support
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
+" Plug 'leafgarland/typescript-vim'
 Plug 'jparise/vim-graphql'
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'} " required by tsuquyomi
+" Plug 'Quramy/tsuquyomi' " typesript autocompletion
+
+" TYPESCRIPT
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+let g:nvim_typescript#javascript_support = 1
+" For async completion
+Plug 'Shougo/deoplete.nvim'
+let g:deoplete#enable_at_startup = 1
+nmap <C-]> :TSDef<CR>
+nmap <C-^> :TSRef<CR>
+" For Denite features
+Plug 'Shougo/denite.nvim'
+" /TYPESCRIPT
+
 
 "" Autocomplete
-" https://jacky.wtf/weblog/language-client-and-neovim/
-" A dependency of 'ncm2'.
-Plug 'roxma/nvim-yarp'
-" v2 of the nvim-completion-manager.
-Plug 'ncm2/ncm2'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" let g:deoplete#enable_at_startup = 1
 " LanguageServer client for NeoVim.
-Plug 'autozimu/LanguageClient-neovim', {
-  \ 'branch': 'next',
-  \ 'do': 'bash install.sh',
-  \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 
 " automatically build vim-markdown-composer plugin
 function! BuildComposer(info)
@@ -48,6 +69,7 @@ Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 
 Plug 'mattn/webapi-vim' " required by gist-vim
 Plug 'olalonde/gist-vim', { 'branch': 'anonymous-fallback' }
+" Plug 'ervandew/supertab'
 
 call plug#end()
 
@@ -280,12 +302,17 @@ if (has("termguicolors"))
 endif
 
 syntax enable
+" set foldmethod=indent
+" set foldlevel=20
 colorscheme OceanicNext
 let g:airline_theme='oceanicnext'
 
 " https://github.com/ntpeters/vim-better-whitespace
 " Remove trailing white space on save
 autocmd BufWritePre * StripWhitespace
+
+" ctrl-c to delete buffer without closing window
+map <C-c> :BD<cr>
 
 ""
 "" Plugin configuraation
@@ -337,10 +364,13 @@ let g:gist_clip_command='pbcopy'
 "" Ale
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
+\   'typescript': ['prettier'],
 \   'css': ['prettier'],
 \}
 
 let g:ale_fix_on_save = 1
+" nmap ]w :ALENext<cr>
+" nmap [w :ALEPrevious<cr>
 
 "" Devicons
 
@@ -349,3 +379,50 @@ let g:webdevicons_enable_nerdtree = 0
 let g:webdevicons_conceal_nerdtree_brackets = 1
 " Force extra padding in NERDTree so that the filetype icons line up vertically
 let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
+
+" Affects the visual representation of what happens after you hit <C-x><C-o>
+" https://neovim.io/doc/user/insert.html#i_CTRL-X_CTRL-O
+" https://neovim.io/doc/user/options.html#'completeopt'
+"
+" This will show the popup menu even if there's only one match (menuone),
+" prevent automatic selection (noselect) and prevent automatic text injection
+" into the current line (noinsert).
+set completeopt=noinsert,menuone,noselect
+
+"" tsuquyomi
+" autocmd FileType typescript setlocal completeopt+=menu,preview
+" let g:tsuquyomi_completion_detail = 1
+
+"" LanguageClient
+
+" let g:LanguageClient_serverCommands = {
+"   \ 'javascript.jsx': ['/Users/olalonde/.nvm/versions/node/v10.12.0/bin/javascript-typescript-stdio'],
+"   \ 'javascript': ['/Users/olalonde/.nvm/versions/node/v10.12.0/bin/javascript-typescript-stdio'],
+"   \ 'typescript': ['/Users/olalonde/.nvm/versions/node/v10.12.0/bin/javascript-typescript-stdio'],
+"   \ 'sh': ['bash-language-server', 'start']
+"   \ }
+
+" nnoremap <C-P> :call LanguageClient_contextMenu()<CR>
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" knnoremap <C-P> :call LanguageClient_contextMenu()<CR>
+" Close preview window with Ctrl-W-W
+nnoremap <silent> W :pclose<CR>
+
+"" Fugitive
+nmap yl :Glog<CR>
+
+"" vim-test
+" these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
+nmap <silent> t<C-n> :TestNearest<CR>
+nmap <silent> t<C-f> :TestFile<CR>
+nmap <silent> t<C-s> :TestSuite<CR>
+nmap <silent> t<C-l> :TestLast<CR>
+nmap <silent> t<C-g> :TestVisit<CR>
+" make test commands execute using dispatch.vim
+let g:test#strategy = 'dispatch'
+let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
+" let g:test#javascript#jest#options = '--reporters /Users/olalonde/code/vim-test-jest-clean-qf-reporter/index.js'
+" set makeprg=./node_modules/.bin/jest\ --reporters\ ./index.js
+" autocmd QuickFixCmdPost [^l]* nested cwindow
+" autocmd QuickFixCmdPost    l* nested lwindow
