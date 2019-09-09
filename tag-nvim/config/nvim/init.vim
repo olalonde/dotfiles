@@ -34,17 +34,18 @@ Plug 'jparise/vim-graphql'
 
 " TYPESCRIPT
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-let g:nvim_typescript#javascript_support = 1
-" For async completion
-Plug 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
-nmap <C-]> :TSDef<CR>
-nmap <C-^> :TSRef<CR>
-" For Denite features
-Plug 'Shougo/denite.nvim'
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" let g:nvim_typescript#javascript_support = 1
+" " For async completion
+" Plug 'Shougo/deoplete.nvim'
+" let g:deoplete#enable_at_startup = 1
+" nmap <C-]> :TSDef<CR>
+" nmap <C-^> :TSRef<CR>
+" " For Denite features
+" Plug 'Shougo/denite.nvim'
 " /TYPESCRIPT
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "" Autocomplete
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -387,7 +388,7 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
 " This will show the popup menu even if there's only one match (menuone),
 " prevent automatic selection (noselect) and prevent automatic text injection
 " into the current line (noinsert).
-set completeopt=noinsert,menuone,noselect
+" set completeopt=noinsert,menuone,noselect
 
 "" tsuquyomi
 " autocmd FileType typescript setlocal completeopt+=menu,preview
@@ -426,3 +427,4 @@ let g:test#javascript#jest#options = '--reporters jest-vim-reporter'
 " set makeprg=./node_modules/.bin/jest\ --reporters\ ./index.js
 " autocmd QuickFixCmdPost [^l]* nested cwindow
 " autocmd QuickFixCmdPost    l* nested lwindow
+so $HOME/.config/nvim/coc.vim
