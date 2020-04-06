@@ -1,17 +1,22 @@
 call plug#begin()
+
+" disable nerdtree while i learn fzf, lol :)
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin' " show git files status in nerdtree
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'vim-airline/vim-airline' " Status bar
-Plug 'mhartington/oceanic-next' " Theme
-Plug 'ryanoasis/vim-devicons'
+Plug 'morhetz/gruvbox' " Theme
+Plug 'mhartington/oceanic-next' " Theme Plug 'ryanoasis/vim-devicons'
 Plug 'editorconfig/editorconfig-vim' " Cross editor config
-Plug 'w0rp/ale' " ALE, better than Syntastic
-Plug '/usr/local/opt/fzf' " fuzzy file search
+" Plug 'w0rp/ale' " ALE, better than Syntastic
+"
 " https://github.com/airblade/vim-gitgutter/issues/555
 Plug 'airblade/vim-gitgutter' " see git diffs in gutter
-Plug 'mhinz/vim-grepper' " :Grepper command
+" Plug 'mhinz/vim-grepper' " :Grepper command
 Plug 'tpope/vim-unimpaired' " convenient bindings to navigate quickfix window
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -26,6 +31,7 @@ Plug 'janko-m/vim-test' " run test from vim
 "
 " Language support
 Plug 'pangloss/vim-javascript'
+let g:javascript_plugin_jsdoc = 1
 Plug 'mxw/vim-jsx'
 " Plug 'leafgarland/typescript-vim'
 Plug 'jparise/vim-graphql'
@@ -45,7 +51,9 @@ Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'Shougo/denite.nvim'
 " /TYPESCRIPT
 
+Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tomlion/vim-solidity'
 
 "" Autocomplete
 " Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -57,20 +65,23 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "     \ }
 
 " automatically build vim-markdown-composer plugin
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-
+" function! BuildComposer(info)
+"   if a:info.status != 'unchanged' || a:info.force
+"     if has('nvim')
+"       !cargo build --release
+"     else
+"       !cargo build --release --no-default-features --features json-rpc
+"     endif
+"   endif
+" endfunction
+" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'mattn/webapi-vim' " required by gist-vim
 Plug 'olalonde/gist-vim', { 'branch': 'anonymous-fallback' }
 " Plug 'ervandew/supertab'
+Plug 'cespare/vim-toml'
+
+" Plug 'jxnblk/vim-mdx-js'
 
 call plug#end()
 
@@ -104,7 +115,9 @@ set noerrorbells  " Disable error bells
 set nostartofline " Don’t reset cursor to start of line when moving around.
 set shortmess=atI " Show the cursor position
 set showmode      " Show the current mode
-set title         " Show the filename in the window titlebar set showcmd       " Show the (partial) command as it’s being typed set scrolloff=3   " Start scrolling three lines before the horizontal window border
+set title         " Show the filename in the window titlebar
+set showcmd       " Show the (partial) command as it’s being typed
+set scrolloff=3   " Start scrolling three lines before the horizontal window border
 ""
 "" Text formatting
 ""
@@ -295,7 +308,8 @@ nmap <leader>hs :set hlsearch! hlsearch?<CR>
 ""
 " Grepper
 "" dont interpret options
-nmap <silent> <leader>fg :Grepper<CR>
+" nmap <silent> <leader>fg :Grepper<CR>
+nmap <silent> <leader>fg :Rg<CR>
 
 " Theme
 if (has("termguicolors"))
@@ -320,38 +334,18 @@ map <C-c> :BD<cr>
 ""
 
 "" fzf
-nmap <silent> <leader>ff :FZF<CR>
+"" nmap <silent> <leader>ff :FZF<CR>
+" Mapping selecting mappings
+nnoremap <leader><leader> :Files<CR>
+nnoremap <leader><CR>     :Buffers<CR>
+nnoremap <leader>fh       :History<CR>
+nnoremap <leader>fg       :GFiles<CR>
+nnoremap <leader>fl       :Lines<CR>
+" ripgrep search strings in files
+nnoremap <leader>rg :Rg<CR>
+nnoremap <leader>C        :Colors<CR>
 
-"" NERDTree
-
-let NERDTreeIgnore=[
-\   '\.pyc$',
-\   '\.pyo$',
-\   '\.rbc$',
-\   '\.rbo$',
-\   '\.class$',
-\   '\.o$',
-\   '\~$',
-\   'node_modules$',
-\   '\.DS_Store$'
-\ ]
-nmap <leader>n :NERDTreeToggle<CR> :NERDTreeMirror<CR>
-
-" https://github.com/scrooloose/nerdtree/issues/21#issuecomment-907483
-" Auto close vim if nerdtree last buffer left
-"autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
+source $HOME/.config/nvim/nerdtree.vim
 
 "" Gitgutter
 set updatetime=100
@@ -363,13 +357,13 @@ nmap <Leader>ha <Plug>GitGutterStageHunk
 let g:gist_clip_command='pbcopy'
 
 "" Ale
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'typescript': ['prettier'],
-\   'css': ['prettier'],
-\}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier'],
+" \   'typescript': ['prettier'],
+" \   'css': ['prettier'],
+" \}
 
-let g:ale_fix_on_save = 1
+" let g:ale_fix_on_save = 1
 " nmap ]w :ALENext<cr>
 " nmap [w :ALEPrevious<cr>
 
