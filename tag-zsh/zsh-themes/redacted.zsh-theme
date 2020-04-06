@@ -1,0 +1,1 @@
+/Users/redacted/.dotfiles/tag-zsh/zsh-theme

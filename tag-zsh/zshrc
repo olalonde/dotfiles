@@ -1,3 +1,6 @@
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
 # vi mode
 bindkey -v
 
@@ -51,14 +54,16 @@ bindkey '^p' autosuggest-accept
 
 ## zsh
 export HISTFILE=~/.histfile
-export HISTSIZE=10000 export SAVEHIST=1000000
+export HISTSIZE=10000
+export SAVEHIST=1000000
+
 ## nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ## rclone
-export RCLONE_PROGRESS=true
+# export RCLONE_PROGRESS=true
 
 ## docker
 # launch a temporary shell on a given image
@@ -73,9 +78,6 @@ function nse() {
 ## direnv
 # https://github.com/direnv/direnv
 eval "$(direnv hook zsh)"
-
-## rclone
-export RCLONE_PROGRESS=true
 
 ##  fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -98,16 +100,26 @@ _fzf_compgen_dir() {
 
 ## pyenv
 eval "$(pyenv init -)"
+# https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
+# causes conflict??
 eval "$(pyenv virtualenv-init -)"
 
 ### Aliases
 alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
+alias lla="ls -alh"
 alias ll="ls -alh"
+# alias ll="ls --group-directories --color -A -1"
 alias ubuntu="docker run -it --rm ubuntu"
 alias vim="nvim"
 alias dc="docker-compose"
+
+# rust cargo
+source $HOME/.cargo/env
 
 ### Local
 if [ -e $HOME/.zshrc.local ]; then
   source $HOME/.zshrc.local
 fi
+
+# added by travis gem
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
