@@ -10,7 +10,7 @@
   user = olalonde
 
 [core]
-	excludesfile = /Users/olalonde/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	pager = less -F -X
 
 [push]
