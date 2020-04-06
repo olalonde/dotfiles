@@ -34,3 +34,6 @@ venv
 .python-version
 .notes
 yarn-error.log
+
+# for coc.vim project config
+.vim
