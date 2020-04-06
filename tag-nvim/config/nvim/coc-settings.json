@@ -1,0 +1,19 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "css",
+    "markdown",
+    "rust",
+    "graphql"
+  ],
+  "snippets.extends": {
+    "javascriptreact": ["javascript"],
+    "typescriptreact": ["javascript"],
+    "typescript": ["javascript"]
+  },
+  "prettier.useTabs": false
+}
