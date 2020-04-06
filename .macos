@@ -893,3 +893,9 @@ for app in "Activity Monitor" \
 	killall "${app}" &> /dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
+
+
+# set visual studio code as default editor for unknown file extensions
+defaults write com.apple.LaunchServices/com.apple.launchservices.secure \
+    LSHandlers -array-add \
+    '{LSHandlerContentType=public.plain-text;LSHandlerRoleAll=com.microsoft.VSCode;}'
