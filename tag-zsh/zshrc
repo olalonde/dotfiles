@@ -1,3 +1,5 @@
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 # vi mode
 bindkey -v
 # https://dougblack.io/words/zsh-vi-mode.html
@@ -13,8 +15,6 @@ export LANG=en_US.UTF-8
 # Enable coloring of e.g. ls
 export CLICOLOR=1
 
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
 # Can manage local plugins
 zplug "~/.zsh", from:local
 # https://github.com/zplug/zplug/issues/547
