@@ -1,30 +1,25 @@
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
-
 # vi mode
 bindkey -v
-
+# https://dougblack.io/words/zsh-vi-mode.html
+export KEYTIMEOUT=1
 export PATH=$HOME/bin:$HOME/.local/bin:$PATH
-
 # Editor
 export EDITOR=nvim
-
 # Pager
 # export PAGER=vimpager
-
 # Language
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-
 # Enable coloring of e.g. ls
 export CLICOLOR=1
 
-### zplug Plugins
-source ~/.zplug/init.zsh
-
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 # Can manage local plugins
 zplug "~/.zsh", from:local
-zplug "chrissicool/zsh-256color"
+# https://github.com/zplug/zplug/issues/547
+# zplug "casey/just", use:"completions/just.zsh", defer:0
+# zplug "chrissicool/zsh-256color"
 zplug "plugins/git", from:oh-my-zsh
 zplug "plugins/vi-mode", from:oh-my-zsh
 zplug "~/.zsh-themes", from:local, as:theme
@@ -32,35 +27,45 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "zsh-users/zsh-syntax-highlighting"
 
 # Install plugins if there are plugins that have not been installed
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo; zplug install
-    fi
-fi
-
+# if ! zplug check --verbose; then
+#     printf "Install? [y/N]: "
+#     if read -q; then
+#         echo; zplug install
+#     fi
+# fi
 # Then, source plugins and add commands to $PATH
 zplug load
-# zplug load --verbose
+
+# Fix bug When quicly clicking <esc>-/ for searching
+# https://superuser.com/a/533685
+vi-search-fix() {
+  zle vi-cmd-mode
+  zle .vi-history-search-backward
+}
+# autoload vi-search-fix
+zle -N vi-search-fix
+bindkey -M viins '^[/' vi-search-fix
+bindkey -M viins '\e/' vi-search-fix
 
 ###  Application specific
 ## ls
 # https://github.com/seebi/dircolors-solarized/issues/10
 # export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-export LSCOLORS=exfxfeaeBxxehehbadacea
+# export LSCOLORS=exfxfeaeBxxehehbadacea
 
 ## zsh-autosuggestions
 bindkey '^p' autosuggest-accept
 
 ## zsh
 export HISTFILE=~/.histfile
-export HISTSIZE=10000
-export SAVEHIST=1000000
+export HISTSIZE=1000000
+export SAVEHIST=10000000
 
 ## nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ## rclone
 # export RCLONE_PROGRESS=true
@@ -80,34 +85,49 @@ function nse() {
 eval "$(direnv hook zsh)"
 
 ##  fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-# Use fd (https://github.com/sharkdp/fd) instead of the default find
-# command for listing path candidates.
-# use fd instead of find to ignore .gitignore, hidden files
-# export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-# To apply the command to CTRL-T as well
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
-}
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# # Use fd (https://github.com/sharkdp/fd) instead of the default find
+# # command for listing path candidates.
+# # use fd instead of find to ignore .gitignore, hidden files
+# # export FZF_DEFAULT_COMMAND='fd --type f'
+# export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+# # To apply the command to CTRL-T as well
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# # - The first argument to the function ($1) is the base path to start traversal
+# # - See the source code (completion.{bash,zsh}) for the details.
+# _fzf_compgen_path() {
+#   fd --hidden --follow --exclude ".git" . "$1"
+# }
+# # Use fd to generate the list for directory completion
+# _fzf_compgen_dir() {
+#   fd --type d --hidden --follow --exclude ".git" . "$1"
+# }
 
 ## pyenv
-eval "$(pyenv init -)"
+# eval "$(pyenv init -)"
 # https://medium.com/@henriquebastos/the-definitive-guide-to-setup-my-python-workspace-628d68552e14
 # causes conflict??
-eval "$(pyenv virtualenv-init -)"
+# eval "$(pyenv virtualenv-init -)"
 
 ### Aliases
 alias zshconfig="$EDITOR ~/.zshrc && source ~/.zshrc"
-alias lla="ls -alh"
-alias ll="ls -alh"
+# alias lla="ls -alh"
+# alias ll="ls -alh"
+
+# mnemonic: add a "l" for more detail. add "2" or "a" (no limit) for tree depth
+alias llbase="exa --sort changed --reverse --group-directories-first -F --tree --color-scale"
+alias l="llbase --git-ignore --ignore-glob=.git/ --level 1"
+alias la="llbase --git-ignore --ignore-glob=.git/"
+alias ll="llbase --long --all --level 1"
+alias lla="llbase --long --all"
+alias l2="l --level 2"
+alias ll2="ll --level 2"
+
+# muscle memory lol
+# alias ll="l"
+# alias lla="la"
+# alias ll2="l2"
+# alias lla2="la2"
 # alias ll="ls --group-directories --color -A -1"
 alias ubuntu="docker run -it --rm ubuntu"
 alias vim="nvim"
@@ -122,4 +142,4 @@ if [ -e $HOME/.zshrc.local ]; then
 fi
 
 # added by travis gem
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+# [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
