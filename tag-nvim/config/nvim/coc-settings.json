@@ -10,10 +10,7 @@
     "rust",
     "graphql"
   ],
-  "snippets.extends": {
-    "javascriptreact": ["javascript"],
-    "typescriptreact": ["javascript"],
-    "typescript": ["javascript"]
-  },
-  "prettier.useTabs": false
+  "rust-analyzer.inlayHints.chainingHints": false,
+  "diagnostic.signOffset": 9999999,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": true
 }

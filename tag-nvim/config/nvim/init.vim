@@ -1,14 +1,18 @@
 call plug#begin()
+" Plug 'jxnblk/vim-mdx-js'
+Plug 'direnv/direnv.vim'
 
 " disable nerdtree while i learn fzf, lol :)
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'preservim/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin' " show git files status in nerdtree
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'vim-airline/vim-airline' " Status bar
+Plug 'itchyny/lightline.vim'
+" Plug 'vim-airline/vim-airline' " Status bar
 Plug 'morhetz/gruvbox' " Theme
 Plug 'mhartington/oceanic-next' " Theme Plug 'ryanoasis/vim-devicons'
 Plug 'editorconfig/editorconfig-vim' " Cross editor config
@@ -38,42 +42,13 @@ Plug 'jparise/vim-graphql'
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'} " required by tsuquyomi
 " Plug 'Quramy/tsuquyomi' " typesript autocompletion
 
-" TYPESCRIPT
-Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" let g:nvim_typescript#javascript_support = 1
-" " For async completion
-" Plug 'Shougo/deoplete.nvim'
-" let g:deoplete#enable_at_startup = 1
-" nmap <C-]> :TSDef<CR>
-" nmap <C-^> :TSRef<CR>
-" " For Denite features
-" Plug 'Shougo/denite.nvim'
-" /TYPESCRIPT
+" TYPESCRIPT?
+" Plug 'HerringtonDarkholme/yats.vim'
 
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tomlion/vim-solidity'
 
-"" Autocomplete
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" let g:deoplete#enable_at_startup = 1
-" LanguageServer client for NeoVim.
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-
-" automatically build vim-markdown-composer plugin
-" function! BuildComposer(info)
-"   if a:info.status != 'unchanged' || a:info.force
-"     if has('nvim')
-"       !cargo build --release
-"     else
-"       !cargo build --release --no-default-features --features json-rpc
-"     endif
-"   endif
-" endfunction
 " Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'mattn/webapi-vim' " required by gist-vim
@@ -81,9 +56,21 @@ Plug 'olalonde/gist-vim', { 'branch': 'anonymous-fallback' }
 " Plug 'ervandew/supertab'
 Plug 'cespare/vim-toml'
 
-" Plug 'jxnblk/vim-mdx-js'
+Plug 'lifepillar/pgsql.vim'
+Plug 'rust-lang/rust.vim'
+
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'vmchale/just-vim'
 
 call plug#end()
+
+let g:db = $DATABASE_URL
+"" lifepillar/pgsql
+let g:sql_type_default = 'pgsql'
+let g:db_ui_env_variable_url = 'DATABASE_URL'
+let g:db = $DATABASE_URL
+" let g:db = $DATABASE_URL
 
 ""
 "" Basic Setup
@@ -216,29 +203,19 @@ if has("autocmd")
 
   " Allow stylesheets to autocomplete hyphenated words
   autocmd FileType css,scss,sass setlocal iskeyword+=-
+
+  " set .tsx extension filetype
+  autocmd BufNewFile,BufRead *.tsx set filetype=javascript
 endif
 
-
-""
-"" Status line
-""
-
-if has("statusline") && !&cp
-  set laststatus=2  " always show the status bar
-
-  " Start the status line
-  set statusline=%f\ %m\ %r
-  set statusline+=Line:%l/%L[%p%%]
-  set statusline+=Col:%v
-  set statusline+=Buf:#%n
-  set statusline+=[%b][0x%B]
-endif
 
 ""
 "" Mappings
 ""
 
 let mapleader="," " Change mapleader
+map <silent> <C-n> :bnext<CR>
+map <silent> <C-p> :bprev<CR>
 
 " use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
 " (it will prompt for sudo password when writing)
@@ -251,7 +228,7 @@ nmap <leader>fef ggVG=
 nmap <silent> <leader>cd :lcd %:h<CR>
 
 " Underline the current line with '='
-nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
+" nmap <silent> <leader>ul :t.\|s/./=/g\|:nohls<cr>
 
 " Map the arrow keys to be based on display lines, not physical lines
 map <Down> gj
@@ -268,23 +245,20 @@ cmap <C-P> <C-R>=expand("%:p:h") . "/"<CR>
 "" Status line
 ""
 
-if has("statusline") && !&cp
-  set laststatus=2  " always show the status bar
-
-  " Start the status line
-  set statusline=%f\ %m\ %r
-  set statusline+=Line:%l/%L[%p%%]
-  set statusline+=Col:%v
-  set statusline+=Buf:#%n
-  set statusline+=[%b][0x%B]
-endif
+" if has("statusline") && !&cp
+"   set laststatus=1  " always show the status bar
+"
+"   " Start the status line
+"   set statusline=%f\ %m\ %r
+"   set statusline+=Line:%l/%L[%p%%]
+"   set statusline+=Col:%v
+"   set statusline+=Buf:#%n
+"   set statusline+=[%b][0x%B]
+" endif
 
 ""
 "" Mappings
 ""
-
-"let mapleader="\\" " Change mapleader
-let mapleader="," " Change mapleader
 
 " use :w!! to write to a file using sudo if you forgot to 'sudo vim file'
 " (it will prompt for sudo password when writing)
@@ -309,18 +283,18 @@ nmap <leader>hs :set hlsearch! hlsearch?<CR>
 " Grepper
 "" dont interpret options
 " nmap <silent> <leader>fg :Grepper<CR>
-nmap <silent> <leader>fg :Rg<CR>
+" nmap <silent> <leader>fg :Rg<CR>
 
 " Theme
 if (has("termguicolors"))
- set termguicolors
+  set termguicolors
 endif
 
 syntax enable
 " set foldmethod=indent
 " set foldlevel=20
-colorscheme OceanicNext
-let g:airline_theme='oceanicnext'
+colorscheme gruvbox
+let g:airline_theme='gruvbox'
 
 " https://github.com/ntpeters/vim-better-whitespace
 " Remove trailing white space on save
@@ -348,33 +322,13 @@ nnoremap <leader>C        :Colors<CR>
 source $HOME/.config/nvim/nerdtree.vim
 
 "" Gitgutter
-set updatetime=100
+set updatetime=50
 " default mapping is <leader>hs which we already use for highlight search
 " mnemonic: hunk add
 nmap <Leader>ha <Plug>GitGutterStageHunk
 
 "" Gist
 let g:gist_clip_command='pbcopy'
-
-"" Ale
-" let g:ale_fixers = {
-" \   'javascript': ['prettier'],
-" \   'typescript': ['prettier'],
-" \   'css': ['prettier'],
-" \}
-
-" let g:ale_fix_on_save = 1
-" nmap ]w :ALENext<cr>
-" nmap [w :ALEPrevious<cr>
-
-"" Devicons
-
-let g:webdevicons_enable_nerdtree = 0
-"
-let g:webdevicons_conceal_nerdtree_brackets = 1
-" Force extra padding in NERDTree so that the filetype icons line up vertically
-let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
-
 " Affects the visual representation of what happens after you hit <C-x><C-o>
 " https://neovim.io/doc/user/insert.html#i_CTRL-X_CTRL-O
 " https://neovim.io/doc/user/options.html#'completeopt'
@@ -405,7 +359,7 @@ let g:WebDevIconsNerdTreeGitPluginForceVAlign = 0
 nnoremap <silent> W :pclose<CR>
 
 "" Fugitive
-nmap yl :Glog<CR>
+" nmap yl :Glog<CR>
 
 "" vim-test
 " these "Ctrl mappings" work well when Caps Lock is mapped to Ctrl
