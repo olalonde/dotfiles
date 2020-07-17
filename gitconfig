@@ -1,13 +1,14 @@
-# taken from https://raw.githubusercontent.com/alikins/gitconfig/master/gitconfig
-# TODO!!
+# initally taken from https://raw.githubusercontent.com/alikins/gitconfig/master/gitconfig
 
-# TODO: should go in gitconfig-local?
+# TODO: use gitconfig-local?
 [user]
-	email = olalonde@gmail.com
-	name = Oli Lalonde
-
+  # email = user@example.com
+  # name = Unknown
+  email = olalonde@gmail.com
+  name = Oli Lalonde
 [github]
   user = olalonde
+  # user = unknown
 
 [core]
 	excludesfile = ~/.gitignore_global
@@ -35,23 +36,24 @@
   d = difftool
 
 [merge]
-	tool = opendiff
+	tool = fugitive
   conflictstyle = diff3
 
 [mergetool]
   prompt = false
+
 [diff]
-	tool = vimdiff
+  tool = vimdiff
+
 [difftool]
-	prompt = false
+  prompt = false
+
+[mergetool "fugitive"]
+  # TODO: use code? (vscode)
+	cmd = nvim -f -c \"Gdiff!\" \"$MERGED\"
+
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
