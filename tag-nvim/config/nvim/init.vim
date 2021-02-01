@@ -43,7 +43,7 @@ Plug 'jparise/vim-graphql'
 " Plug 'Quramy/tsuquyomi' " typesript autocompletion
 
 " TYPESCRIPT?
-" Plug 'HerringtonDarkholme/yats.vim'
+Plug 'HerringtonDarkholme/yats.vim'
 
 " Plug 'honza/vim-snippets'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -205,7 +205,7 @@ if has("autocmd")
   autocmd FileType css,scss,sass setlocal iskeyword+=-
 
   " set .tsx extension filetype
-  autocmd BufNewFile,BufRead *.tsx set filetype=javascript
+  autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
 endif
 
 

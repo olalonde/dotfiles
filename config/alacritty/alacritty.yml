@@ -1,3 +1,15 @@
+#shell:
+#  program: /usr/bin/arch
+#  args:
+#    - -arm64
+#    - /opt/homebrew/bin/zsh
+#    - -l
+shell:
+  program: /opt/homebrew/bin/zsh
+  args:
+    - -l
+    - -c
+    - "tmux attach || tmux"
 schemes:
 
   afterglow: &afterglow
