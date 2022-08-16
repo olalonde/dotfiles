@@ -10,8 +10,68 @@ shell:
     - -l
     - -c
     - "tmux attach || tmux"
-schemes:
 
+# Send ESC (\x1b) before characters when alt is pressed.
+# alt_send_esc: false
+
+# see https://github.com/alacritty/alacritty/wiki/Color-schemes
+schemes:
+  monokai: &monokai
+    # Colors (Monokai Dark)
+    # Default colors
+    primary:
+      background: '#272822'
+      foreground: '#F8F8F2'
+
+    # Normal colors
+    normal:
+     black:   '#272822'
+     red:     '#F92672'
+     green:   '#A6E22E'
+     yellow:  '#F4BF75'
+     blue:    '#66D9EF'
+     magenta: '#AE81FF'
+     cyan:    '#A1EFE4'
+     white:   '#F8F8F2'
+
+    # Bright colors
+    bright:
+     black:   '#75715E'
+     red:     '#F92672'
+     green:   '#A6E22E'
+     yellow:  '#F4BF75'
+     blue:    '#66D9EF'
+     magenta: '#AE81FF'
+     cyan:    '#A1EFE4'
+     white:   '#F9F8F5'
+  # Colors (Monokai Pro)
+  monokai_pro: &monokai_pro
+    # Default colors
+    primary:
+      background: '#2D2A2E'
+      foreground: '#FCFCFA'
+
+    # Normal colors
+    normal:
+      black:   '#403E41'
+      red:     '#FF6188'
+      green:   '#A9DC76'
+      yellow:  '#FFD866'
+      blue:    '#FC9867'
+      magenta: '#AB9DF2'
+      cyan:    '#78DCE8'
+      white:   '#FCFCFA'
+
+    # Bright colors
+    bright:
+      black:   '#727072'
+      red:     '#FF6188'
+      green:   '#A9DC76'
+      yellow:  '#FFD866'
+      blue:    '#FC9867'
+      magenta: '#AB9DF2'
+      cyan:    '#78DCE8'
+      white:   '#FCFCFA'
   afterglow: &afterglow
     primary:
       background: '0x2c2c2c'
@@ -367,6 +427,32 @@ schemes:
       magenta: '0xd3869b'
       cyan:    '0x8ec07c'
       white:   '0xebdbb2'
+
+  gruvbox_dark_sysk: &gruvbox_dark_sysk
+    # modified gruvbox dark
+    primary:
+      # hard contrast: background = '0x1d2021'
+      background: '0x1c1c1c'
+      # soft contrast: background = '0x32302f'
+      foreground: '0xebdbb2'
+      normal:
+        black:   '0x282828'
+        red:     '0xcc241d'
+        green:   '0x98971a'
+        yellow:  '0xd79921'
+        blue:    '0x458588'
+        magenta: '0xb16286'
+        cyan:    '0x689d6a'
+        white:   '0xa89984'
+        bright:
+          black:   '0x928374'
+          red:     '0xfb4934'
+          green:   '0xb8bb26'
+          yellow:  '0xfabd2f'
+          blue:    '0x83a598'
+          magenta: '0xd3869b'
+          cyan:    '0x8ec07c'
+          white:   '0xebdbb2'
 
   gruvbox_light: &gruvbox_light
     primary:
@@ -914,29 +1000,19 @@ nord: &nord
       cyan:    '0x00ffff'
       white:   '0xffffff'
 
-# colors: *argonaut
-colors:
-  # modified gruvbox dark
-  primary:
-    # hard contrast: background = '0x1d2021'
-    background: '0x1c1c1c'
-    # soft contrast: background = '0x32302f'
-    foreground: '0xebdbb2'
-    normal:
-      black:   '0x282828'
-      red:     '0xcc241d'
-      green:   '0x98971a'
-      yellow:  '0xd79921'
-      blue:    '0x458588'
-      magenta: '0xb16286'
-      cyan:    '0x689d6a'
-      white:   '0xa89984'
-      bright:
-        black:   '0x928374'
-        red:     '0xfb4934'
-        green:   '0xb8bb26'
-        yellow:  '0xfabd2f'
-        blue:    '0x83a598'
-        magenta: '0xd3869b'
-        cyan:    '0x8ec07c'
-        white:   '0xebdbb2'
+colors: *gruvbox_dark_sysk
+# Font configuration (changes require restart)
+font:
+  normal:
+    family: MesloLGSDZ Nerd font
+    style: Regular
+  bold:
+    family: MesloLGSDZ Nerd font
+    style: Bold
+  italic:
+    family: MesloLGSDZ Nerd font
+    style: Italic
+  bold_italic:
+    family: MesloLGSDZ Nerd font
+    style: Bold Italic
+  size: 11
