@@ -5,12 +5,11 @@
 ## Clone repository
 
 ```bash
-cd ~
-git clone git@github.com:olalonde/dotfiles.git
+git clone git@github.com:olalonde/dotfiles.git ~/.dotfiles
 ```
 
 ## Setup symlinks
 
 ```bash
-rcup -v -d dotfiles
+RCRC=~/.dotfiles/rcrc rcup -v -d ~/.dotfiles
 ```
