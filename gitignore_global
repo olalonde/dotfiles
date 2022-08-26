@@ -29,6 +29,7 @@ npm-debug.log
 
 # .envrc
 # .npmrc
+.venv
 venv
 .envrc
 *.swp

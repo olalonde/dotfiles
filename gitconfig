@@ -6,20 +6,12 @@
   # name = Unknown
   email = olalonde@gmail.com
   name = Oli Lalonde
-[github]
-  user = olalonde
-  # user = unknown
-
 [core]
 	excludesfile = ~/.gitignore_global
 	pager = less -F -X
 
 [push]
   default = simple
-
-# local user config, usernames, etc
-[include]
-  path = ~/.gitconfig-local
 
 [color]
   diff = auto
@@ -57,6 +49,9 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+[init]
+	defaultBranch = master
 
-[hub]
-	protocol = ssh
+# local user config, usernames, etc
+[include]
+  path = ~/.gitconfig.local

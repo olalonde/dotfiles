@@ -122,6 +122,7 @@ alias ll="llbase --long --all --level 1"
 alias lla="llbase --long --all"
 alias l2="l --level 2"
 alias ll2="ll --level 2"
+alias hub="echo 'use gh cli instead!'"
 
 # muscle memory lol
 # alias ll="l"
@@ -132,6 +133,7 @@ alias ll2="ll --level 2"
 alias ubuntu="docker run -it --rm ubuntu"
 alias vim="nvim"
 alias dc="docker-compose"
+
 
 # rust cargo
 source $HOME/.cargo/env
